@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/filter"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="Filter"
+        app:showAsAction="always">
+        <menu >
+            <item
+                android:id="@+id/menu_filter_location"
+                android:icon="@drawable/ic_baseline_meeting_room_24"
+                android:title="Meeting room"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/menu_filter_date"
+                android:icon="@drawable/ic_baseline_date_range_24"
+                android:title="Date"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_filter_clear"
+                android:title="Clear filter"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
+
+</menu>

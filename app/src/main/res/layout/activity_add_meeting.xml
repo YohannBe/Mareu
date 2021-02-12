@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddMeeting"
+    android:id="@+id/add_meeting"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/parent_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/location_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:gravity="center_horizontal"
+                    android:text="Location"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/location_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Put wich room..."
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="20dp"/>
+
+                <TextView
+                    android:id="@+id/date_collapse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20sp"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal"
+                    android:onClick="showCalendar"
+                    android:text="Date"
+                    android:textSize="20sp"
+                    app:drawableEndCompat="@drawable/slide_down_arrow" />
+
+                <DatePicker
+                    android:id="@+id/date_calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/hour_collapse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20sp"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal"
+                    android:onClick="showTimePiker"
+                    android:text="Hour"
+                    android:textSize="20sp"
+                    app:drawableEndCompat="@drawable/slide_down_arrow" />
+
+                <TimePicker
+                    android:id="@+id/hour_timepicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone">
+                </TimePicker>
+
+                <TextView
+                    android:id="@+id/add_description_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20sp"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal"
+                    android:text="Meeting's description"
+                    android:textSize="20sp"/>
+
+                <EditText
+                    android:id="@+id/description_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="What will be the main topic..."
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="20dp"/>
+
+                <TextView
+                    android:id="@+id/user_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20sp"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal"
+                    android:text="User's detail"
+                    android:textSize="20sp"/>
+
+                <EditText
+                    android:id="@+id/userName_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Type your userName"
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="20dp"/>
+
+                <EditText
+                    android:id="@+id/userMail_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="Type your mail address"
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="20dp"/>
+
+                <TextView
+                    android:id="@+id/add_participant_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20sp"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal"
+                    android:text="Add participant"
+                    android:textSize="20sp"/>
+
+                    <ImageButton
+                        android:id="@+id/add_participant_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:background="@null"
+                        android:onClick="onAddField"
+                        android:src="@drawable/add_icon" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/create_meeting"
+                    android:textAllCaps="false"
+                    android:onClick="checkDialog">
+
+                </Button>
+            </LinearLayout>
+        </ScrollView>
+
+        <ImageButton
+            android:id="@+id/arrow_back_imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:contentDescription="@string/arrow_back_contentdescription"
+            android:src="@drawable/arrow_back"
+            android:onClick="close"/>
+
+    </FrameLayout>
+</LinearLayout>
