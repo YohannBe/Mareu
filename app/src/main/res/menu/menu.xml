@@ -20,6 +20,9 @@
                 android:title="Date"
                 app:showAsAction="never" />
             <item
+                android:id="@+id/menu_filter_both"
+                android:title="Date and room" />
+            <item
                 android:id="@+id/menu_filter_clear"
                 android:title="Clear filter"
                 app:showAsAction="never" />

@@ -1,17 +1,17 @@
 package com.example.mareu.injection;
 
-import com.example.mareu.service.ListMeeting;
+import com.example.mareu.service.ListMeetingService;
 
 public class Injection {
 
-    static ListMeeting service = new ListMeeting();
+    static ListMeetingService service = new ListMeetingService();
 
-    public static ListMeeting getListMeetingService() {
+    public static ListMeetingService getListMeetingService() {
         return service;
     }
 
 
-    public static ListMeeting getNewInstanceApiService() {
-        return new ListMeeting();
+    public static ListMeetingService getNewInstanceApiService() {
+        return new ListMeetingService();
     }
 }

@@ -24,7 +24,7 @@ public abstract class DummyMeetingGenerator {
                     new Date(8, 2, 2020), "B", DUMMY_MAIL, new User("jean", "jeanmoulin@gmail.com"), "Lorem ipsum "),
             new Meeting(new Hour(15, 00), new Date(10, 5, 2021),
                     new Date(3, 5, 2019), "D", DUMMY_MAIL, new User("Louis", "louisde@gmail.com"), "Lorem "),
-            new Meeting(new Hour(12, 50), new Date(15, 2, 2023),
+            new Meeting(new Hour(12, 50), new Date(17, 3, 2023),
                     new Date(25, 9, 2020), "A", DUMMY_MAIL, new User("Marc", "louisde@gmail.com"), "Lorem "),
             new Meeting(new Hour(18, 0), new Date(2, 12, 2012),
                     new Date(1, 1, 2017), "A", DUMMY_MAIL, new User("Charles", "louisde@gmail.com"), "Lorem "),
@@ -38,7 +38,6 @@ public abstract class DummyMeetingGenerator {
                     new Date(16, 12, 2020), "D", DUMMY_MAIL, new User("Malfoy", "louisde@gmail.com"), "Lorem "),
             new Meeting(new Hour(7, 0), new Date(12, 9, 2021),
                     new Date(24, 1, 2018), "A", DUMMY_MAIL, new User("Dumbledor", "louisde@gmail.com"), "Lorem "));
-
 
     public static List<Meeting> generateList() {
         return new ArrayList<>(DUMMY_MEETING);

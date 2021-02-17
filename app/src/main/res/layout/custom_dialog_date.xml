@@ -155,8 +155,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:buttonTint="@color/secondaryDarker"
+                                android:textColor="@color/black"
                                 android:text="Only this day"
-                                android:textColor="@color/black" />
+                                 />
 
                             <RadioButton
                                 android:id="@+id/date_dialog_radio_before"

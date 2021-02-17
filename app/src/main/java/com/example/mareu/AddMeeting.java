@@ -15,10 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,6 +32,7 @@ import com.example.mareu.model.Hour;
 import com.example.mareu.model.Meeting;
 import com.example.mareu.model.User;
 import com.example.mareu.service.ListMeetingApiService;
+import com.example.mareu.utils.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,15 +46,13 @@ public class AddMeeting extends AppCompatActivity {
     private DatePicker datePicker;
     private LinearLayout parentLinearLayout;
     private List<View> rowViewList = new ArrayList<View>();
-    private boolean empty = false;
     private Dialog resumeDialog;
     private ImageView close;
     private TextView userText, locationText, dateText, hourText, descriptionText, userDateAskedText;
     private Button addNewMeetingButton, cancelDialog;
     private Meeting meeting;
     private ListMeetingApiService service;
-    private List<Meeting> mListMeeting;
-
+    private RadioButton a, b, c, d, e, f, g, h, i, j;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +60,35 @@ public class AddMeeting extends AppCompatActivity {
         setContentView(R.layout.activity_add_meeting);
 
         initWidget();
+    }
 
+    private void setGroupVisibility(View v, ImageButton addRadio, LinearLayout RadioGroup){
+        setVisibilityView(v);
+        setVisibilityView(addRadio);
+        setVisibilityView(RadioGroup);
+    }
+
+    private void setVisibilityView(View v) {
+        if (v.getVisibility() == View.VISIBLE)
+            v.setVisibility(View.GONE);
+        else v.setVisibility(View.VISIBLE);
     }
 
 
     private void initWidget() {
         service = Injection.getListMeetingService();
-        mListMeeting = service.getMeetingList();
         hiddenCalendar = true;
         hiddenTimePicker = true;
-        locationEditText = findViewById(R.id.location_edittext);
+        a = findViewById(R.id.add_meeting_radio_button_a);
+        b = findViewById(R.id.add_meeting_radio_button_b);
+        c = findViewById(R.id.add_meeting_radio_button_c);
+        d = findViewById(R.id.add_meeting_radio_button_d);
+        e = findViewById(R.id.add_meeting_radio_button_e);
+        f = findViewById(R.id.add_meeting_radio_button_f);
+        g = findViewById(R.id.add_meeting_radio_button_g);
+        h = findViewById(R.id.add_meeting_radio_button_h);
+        i = findViewById(R.id.add_meeting_radio_button_i);
+        j = findViewById(R.id.add_meeting_radio_button_j);
         timePicker = findViewById(R.id.hour_timepicker);
         datePicker = findViewById(R.id.date_calendar);
         parentLinearLayout = findViewById(R.id.parent_linear_layout);
@@ -76,6 +97,8 @@ public class AddMeeting extends AppCompatActivity {
         userMailEdittext = findViewById(R.id.userMail_edittext);
         resumeDialog = new Dialog(this);
     }
+
+
 
     public void onAddField(View v) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -121,10 +144,10 @@ public class AddMeeting extends AppCompatActivity {
 
         String location, date, hour, description, userName, userMail;
 
-        location = checkAndAddString(locationEditText);
+        location = checkAndAddLocation(a, b, c, d, e, f, g, h, i, j);
 
         Date dateObject = new Date(datePicker.getDayOfMonth(), datePicker.getMonth(), datePicker.getYear());
-        date = dateObject.dateToString();
+        date = Utils.dateToString(dateObject);
 
         Hour hourObject = new Hour(timePicker.getHour(), timePicker.getMinute());
         hour = hourObject.hourToString();
@@ -137,11 +160,37 @@ public class AddMeeting extends AppCompatActivity {
 
         List<String> getText = getTextFromEditTextParticipant();
 
-        if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(hour) && getText != null && !empty) {
+        if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(hour) && getText != null && location != null) {
             meeting = new Meeting(hourObject, dateObject, dateObject, location, getText, user, description);
             openDialog(location, date, hour, description, userName, userMail);
         } else
-            Toast.makeText(this, "fuck you", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Oups something went wrong", Toast.LENGTH_SHORT).show();
+    }
+
+    private String checkAndAddLocation(RadioButton a, RadioButton b, RadioButton c, RadioButton d, RadioButton e, RadioButton f, RadioButton g, RadioButton h, RadioButton i, RadioButton j) {
+
+        if (a.isChecked())
+            return "A";
+        if (b.isChecked())
+            return "B";
+        if (c.isChecked())
+            return "C";
+        if (d.isChecked())
+            return "D";
+        if (e.isChecked())
+            return "E";
+        if (f.isChecked())
+            return "F";
+        if (g.isChecked())
+            return "G";
+        if (h.isChecked())
+            return "H";
+        if (i.isChecked())
+            return "I";
+        if (j.isChecked())
+            return "J";
+        Toast.makeText(AddMeeting.this, "it seems that some fields are missing", Toast.LENGTH_SHORT).show();
+        return null;
     }
 
     private void openDialog(String location, String date, String hour, String description, String userName, String userMail) {
@@ -165,7 +214,7 @@ public class AddMeeting extends AppCompatActivity {
         addNewMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListMeeting.add(meeting);
+                service.addMeeting(meeting);
                 Intent toMainActivity = new Intent(AddMeeting.this, MainActivity.class);
                 startActivity(toMainActivity);
             }
@@ -174,14 +223,14 @@ public class AddMeeting extends AppCompatActivity {
     }
 
     private void initText(String location, String date, String hour, String description, String userName, String userMail) {
-        userText.setText(userName);
-        locationText.setText(location);
-        dateText.setText(date);
-        hourText.setText(hour);
-        descriptionText.setText(description);
+        userText.setText("Admin: "+userName);
+        locationText.setText("Room: "+location);
+        dateText.setText("Date: "+date);
+        hourText.setText("Hour: "+hour);
+        descriptionText.setText("Topic: "+description);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         String currentDate = sdf.format(new java.util.Date());
-        userDateAskedText.setText(currentDate);
+        userDateAskedText.setText("Made the: "+currentDate);
     }
 
     private void initDialog(Dialog resumeDialog) {
@@ -200,7 +249,6 @@ public class AddMeeting extends AppCompatActivity {
         if (!TextUtils.isEmpty(editText.getText().toString()))
             return editText.getText().toString();
         else {
-            empty = true;
             Toast.makeText(AddMeeting.this, "it seems that some fields are missing", Toast.LENGTH_SHORT).show();
         }
         return null;

@@ -13,12 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mareu.R;
 import com.example.mareu.event.DeleteMeetingEvent;
-import com.example.mareu.service.ListMeeting;
 import com.example.mareu.model.Meeting;
+import com.example.mareu.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -96,7 +95,7 @@ public class ListMeetingPageAdapter extends RecyclerView.Adapter<ListMeetingPage
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, meeting.getMeetingDate().dateToString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, Utils.dateToString(meeting.getMeetingDate()), Toast.LENGTH_SHORT).show();
             }
         });
 
