@@ -7,10 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mareu.R;
@@ -26,7 +27,7 @@ import static android.content.ContentValues.TAG;
 
 
 public class ListMeetingPageAdapter extends RecyclerView.Adapter<ListMeetingPageAdapter.ViewHolder> {
-    private List<Meeting> mDataSet;
+    private final List<Meeting> mDataSet;
     Context context;
 
 
@@ -35,23 +36,19 @@ public class ListMeetingPageAdapter extends RecyclerView.Adapter<ListMeetingPage
         this.context = context;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView title_one, description;
-        private ImageButton deleteButton;
-        private View avatar;
+        private final TextView title_one;
+        private final TextView description;
+        private final ImageButton deleteButton;
+        private final View avatar;
 
         public ViewHolder(View v) {
             super(v);
             // Define click listener for the ViewHolder's View.
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "Element " + getAdapterPosition() + " clicked.");
-                }
-            });
+            v.setOnClickListener(v1 -> Log.d(TAG, "Element " + getAdapterPosition() + " clicked."));
             title_one = v.findViewById(R.id.item_list_name);
-            description =  v.findViewById(R.id.item_list_description);
+            description = v.findViewById(R.id.item_list_description);
             deleteButton = v.findViewById(R.id.item_list_delete_button);
             avatar = v.findViewById(R.id.item_list_avatar);
         }
@@ -67,8 +64,7 @@ public class ListMeetingPageAdapter extends RecyclerView.Adapter<ListMeetingPage
         mDataSet = dataSet;
     }
 
-    // BEGIN_INCLUDE(recyclerViewOnCreateViewHolder)
-    // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view.
@@ -87,37 +83,32 @@ public class ListMeetingPageAdapter extends RecyclerView.Adapter<ListMeetingPage
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
         Meeting meeting = mDataSet.get(position);
-       String sentenceTitle = "Réunion " + meeting.getLocation() + " - " + meeting.getHour().hourToString() +
+        String sentenceTitle = "Réunion " + meeting.getLocation() + " - " + Utils.hourToString(meeting.getHour()) +
                 " - " + meeting.getUser().getUserName();
         viewHolder.title_one.setText(sentenceTitle);
-        Drawable drawable = context.getDrawable(meeting.getDrawable());
+        Drawable drawable = ContextCompat.getDrawable(context, meeting.getDrawable());
         viewHolder.avatar.setBackground(drawable);
 
         String listMail = "";
-        for (int i = 0; i<meeting.getListMail().size(); i++){
-            listMail = listMail + meeting.getListMail().get(i) + ", ";
+
+        if (meeting.getListMail().size() == 1)
+            listMail = meeting.getListMail().get(0);
+        else {
+            for (int i = 0; i < meeting.getListMail().size(); i++) {
+                listMail = listMail + meeting.getListMail().get(i) + ", ";
+            }
         }
         viewHolder.description.setText(listMail);
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, Utils.dateToString(meeting.getMeetingDate()), Toast.LENGTH_SHORT).show();
-            }
-        });
+        viewHolder.itemView.setOnClickListener(
+                v -> Toast.makeText(context, Utils.dateToString(meeting.getMeetingDate()), Toast.LENGTH_SHORT).show());
 
-        viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new DeleteMeetingEvent(meeting));            }
-        });
+        viewHolder.deleteButton.setOnClickListener(
+                v -> EventBus.getDefault().post(new DeleteMeetingEvent(meeting)));
     }
-    // END_INCLUDE(recyclerViewOnBindViewHolder)
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataSet.size();
     }
-
 }

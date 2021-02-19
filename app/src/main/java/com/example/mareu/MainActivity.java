@@ -242,11 +242,11 @@ public class MainActivity extends AppCompatActivity {
             if (range) {
                 if (filteredBoth) {
                     filteredList1 = service.getFilteredMeetingListRange(chosenDate,
-                            new Date(datePickerRange.getDayOfMonth(), datePickerRange.getMonth(), datePickerRange.getYear()));
+                            new Date(datePickerRange.getDayOfMonth(), datePickerRange.getMonth()+1, datePickerRange.getYear()));
                     showDialogLocation(filteredBoth);
                 } else {
                     mListMeeting = service.getFilteredMeetingListRange(chosenDate,
-                            new Date(datePickerRange.getDayOfMonth(), datePickerRange.getMonth(), datePickerRange.getYear()));
+                            new Date(datePickerRange.getDayOfMonth(), datePickerRange.getMonth()+1, datePickerRange.getYear()));
                     initList();
                 }
             } else {

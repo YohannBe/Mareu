@@ -15,9 +15,9 @@ import static com.example.mareu.service.DummyMeetingGenerator.generateListMail;
 import static com.example.mareu.utils.Utils.EnumDate.specific;
 
 public class ListMeetingService implements ListMeetingApiService {
-    private ArrayList<Meeting> meetingList = (ArrayList<Meeting>) generateList();
+    private final ArrayList<Meeting> meetingList = (ArrayList<Meeting>) generateList();
     public static ArrayList<String> listMail = (ArrayList<String>) generateListMail();
-    private ArrayList<Meeting> meetingListFiltered = new ArrayList<>();
+    private final ArrayList<Meeting> meetingListFiltered = new ArrayList<>();
 
 
     public void addMeeting(Meeting meeting) {

@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.example.mareu.model.Date;
+import com.example.mareu.model.Hour;
 
 import java.util.ArrayList;
 
@@ -84,6 +85,19 @@ public class Utils {
         String dateString = day + "." + month + "." + year;
 
         return dateString;
+    }
+
+    /**----------------- hour ------------------ */
+
+    public static String hourToString(Hour hour) {
+        String fHour = String.valueOf(hour.getHour());
+        String fMinute = String.valueOf(hour.getMinute());
+        if (hour.getHour() < 10)
+            fHour = "0" + fHour;
+        if (hour.getMinute() < 10)
+            fMinute = "0" + fMinute;
+        String completeHour = fHour + ":" + fMinute;
+        return completeHour;
     }
 
     /**

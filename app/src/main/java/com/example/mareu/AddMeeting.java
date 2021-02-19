@@ -49,7 +49,7 @@ public class AddMeeting extends AppCompatActivity {
     private TimePicker timePicker;
     private DatePicker datePicker;
     private LinearLayout parentLinearLayout;
-    private List<View> rowViewList = new ArrayList<View>();
+    private final List<View> rowViewList = new ArrayList<>();
     private Dialog resumeDialog;
     private ImageView close, mCircle;
     private TextView userText, locationText, dateText, hourText, descriptionText, userDateAskedText;
@@ -147,7 +147,7 @@ public class AddMeeting extends AppCompatActivity {
         date = Utils.dateToString(dateObject);
 
         Hour hourObject = new Hour(timePicker.getHour(), timePicker.getMinute());
-        hour = hourObject.hourToString();
+        hour = Utils.hourToString(hourObject);
 
         userName = checkAndAddString(userNameEdittext);
         userMail = checkAndAddString(userMailEdittext);
