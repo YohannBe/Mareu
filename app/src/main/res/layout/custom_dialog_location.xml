@@ -1,254 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="450dp"
+    android:layout_height="470dp"
     android:layout_gravity="center"
     android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp">
+    android:layout_marginEnd="10dp"
+    app:cardBackgroundColor="@color/secondaryLighter"
+    app:cardCornerRadius="15dp">
 
     <ImageView
         android:id="@+id/close_cross_imageview_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:src="@drawable/ic_baseline_close_24"
-        android:translationZ="90dp" />
+        android:contentDescription="@string/close_dialog"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
-        android:translationZ="90dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/dialog_location_button_filter"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:text="Filter"
-            android:textAllCaps="false" />
+            android:gravity="center_horizontal"
+            android:text="@string/filter_location"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
-        <Button
-            android:id="@+id/dialog_location_button_cancel"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:text="Cancel"
-            android:textAllCaps="false" />
-    </LinearLayout>
+            android:layout_height="290dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        app:cardBackgroundColor="@color/secondaryLighter"
-        app:cardCornerRadius="15dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:id="@+id/dialog_location_groupcheckboxone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="100dp">
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/a"
+                        android:textColor="@color/black" />
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/b"
+                        android:textColor="@color/black" />
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_c"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/c"
+                        android:textColor="@color/black" />
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_d"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/d"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/dialog_location_button_minimalizeone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/secondaryLighter"
+                    android:src="@drawable/ic_baseline_minimize_24"
+                    android:visibility="gone"
+                    android:contentDescription="@string/show_checkboxes"/>
+
+                <ImageButton
+                    android:id="@+id/dialog_location_button_addone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/secondaryLighter"
+                    android:paddingHorizontal="100dp"
+                    android:src="@drawable/add_icon"
+                    android:contentDescription="@string/show_checkboxes"/>
+
+                <LinearLayout
+                    android:id="@+id/dialog_location_groupcheckboxtwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="100dp"
+                    android:visibility="gone">
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_e"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/e"
+                        android:textColor="@color/black" />
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_f"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/f"
+                        android:textColor="@color/black" />
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_g"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/g"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/dialog_location_button_minimalizetwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/secondaryLighter"
+                    android:src="@drawable/ic_baseline_minimize_24"
+                    android:visibility="gone"
+                    android:contentDescription="@string/show_checkboxes"/>
+
+                <ImageButton
+                    android:id="@+id/dialog_location_button_addtwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/secondaryLighter"
+                    android:paddingHorizontal="100dp"
+                    android:src="@drawable/add_icon"
+                    android:contentDescription="@string/show_checkboxes" />
+
+                <LinearLayout
+                    android:id="@+id/dialog_location_groupcheckboxthree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="100dp"
+                    android:visibility="gone">
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/h"
+                        android:textColor="@color/black" />
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_i"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/i"
+                        android:textColor="@color/black" />
+
+                    <CheckBox
+                        android:id="@+id/dialog_location_radio_button_j"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/j"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:translationZ="90dp">
 
-            <TextView
+            <Button
+                android:id="@+id/dialog_location_button_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Filter: Location"
-                android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:text="@string/filter"
+                android:textAllCaps="false"
+                tools:ignore="ButtonStyle" />
 
-            <ScrollView
+            <Button
+                android:id="@+id/dialog_location_button_cancel"
                 android:layout_width="match_parent"
-                android:layout_height="330dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/dialog_location_groupcheckboxone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="center_horizontal"
-                        android:paddingHorizontal="100dp">
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_a"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="A"
-                            android:textColor="@color/black"
-                            />
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_b"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="B"
-                            android:textColor="@color/black"
-                            />
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_c"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="C"
-                            android:textColor="@color/black"
-                            />
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_d"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="D"
-                            android:textColor="@color/black"
-                            />
-                    </LinearLayout>
-
-                    <ImageButton
-                        android:id="@+id/dialog_location_button_minimalizeone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/secondaryLighter"
-                        android:src="@drawable/ic_baseline_minimize_24"
-                        android:visibility="gone" />
-
-                    <ImageButton
-                        android:id="@+id/dialog_location_button_addone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/secondaryLighter"
-                        android:paddingHorizontal="100dp"
-                        android:src="@drawable/add_icon" />
-
-                    <LinearLayout
-                        android:id="@+id/dialog_location_groupcheckboxtwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:paddingHorizontal="100dp"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_e"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="E"
-                            android:textColor="@color/black"
-                            />
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_f"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="F"
-                            android:textColor="@color/black"
-                            />
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_g"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="G"
-                            android:textColor="@color/black"
-                            />
-                    </LinearLayout>
-
-                    <ImageButton
-                        android:id="@+id/dialog_location_button_minimalizetwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/secondaryLighter"
-                        android:src="@drawable/ic_baseline_minimize_24"
-                        android:visibility="gone" />
-
-                    <ImageButton
-                        android:id="@+id/dialog_location_button_addtwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/secondaryLighter"
-                        android:paddingHorizontal="100dp"
-                        android:src="@drawable/add_icon" />
-
-                    <LinearLayout
-                        android:id="@+id/dialog_location_groupcheckboxthree"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:paddingHorizontal="100dp"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_h"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="H"
-                            android:textColor="@color/black"
-                            />
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_i"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="I"
-                            android:textColor="@color/black"
-                            />
-
-                        <CheckBox
-                            android:id="@+id/dialog_location_radio_button_j"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="J"
-                            android:textColor="@color/black"
-                           />
-                    </LinearLayout>
-                </LinearLayout>
-            </ScrollView>
-
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                tools:ignore="ButtonStyle" />
         </LinearLayout>
+    </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
-
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

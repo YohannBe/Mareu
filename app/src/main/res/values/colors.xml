@@ -13,4 +13,8 @@
     <color name="secondary">#d3559e</color>
     <color name="secondaryLighter">#f6e2ee</color>
     <color name="secondaryDarker">#a40066</color>
+    <color name="orangeCircle">#FF6F00</color>
+    <color name="redCircle">#BF360C</color>
+    <color name="blueCircle">#01579B</color>
+    <color name="purpleCircle">#311B92</color>
 </resources>

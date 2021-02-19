@@ -1,6 +1,7 @@
 package com.example.mareu.model;
 
-import java.util.ArrayList;
+import android.graphics.drawable.Drawable;
+
 import java.util.List;
 
 public class Meeting {
@@ -11,7 +12,17 @@ public class Meeting {
     private List<String> listMail;
     private User user;
 
-    public Meeting(Hour hour, Date meetingDate, Date userAsked, String location, List<String> listMail, User user, String description) {
+    public int getDrawable() {
+        return drawable;
+    }
+
+    public void setDrawable(int drawable) {
+        this.drawable = drawable;
+    }
+
+    private int drawable;
+
+    public Meeting(Hour hour, Date meetingDate, Date userAsked, String location, List<String> listMail, User user, String description, int drawable) {
         this.hour = hour;
         this.meetingDate = meetingDate;
         this.userAsked = userAsked;
@@ -19,6 +30,7 @@ public class Meeting {
         this.listMail = listMail;
         this.user = user;
         this.description = description;
+        this.drawable = drawable;
     }
 
     public String getDescription() {

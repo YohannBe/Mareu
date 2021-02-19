@@ -36,7 +36,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.mareu.utils.Utils.chosenRooms;
@@ -63,21 +62,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initWidget();
+        initMainActivity();
+
+
     }
 
-    private void initWidget() {
+    private void initMainActivity() {
         service = Injection.getListMeetingService();
         mListMeeting = service.getMeetingList();
         addMeetingButton = findViewById(R.id.add_meeting);
         recyclerView = findViewById(R.id.recycleView_list_item);
+
+        dateDialog = new Dialog(this);
+        locationDialog = new Dialog(this);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         ListMeetingPageAdapter customAdapter = new ListMeetingPageAdapter(mListMeeting, MainActivity.this);
         recyclerView.setAdapter(customAdapter);
+
         sendUserToCreateMeeting(addMeetingButton);
-        dateDialog = new Dialog(this);
-        locationDialog = new Dialog(this);
     }
 
     private void sendUserToCreateMeeting(FloatingActionButton addMeetingButton) {
@@ -101,16 +105,23 @@ public class MainActivity extends AppCompatActivity {
         initList();
     }
 
+    /**
+     * ----- inflate the menu in the toolbar by taking te menu layout------
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
+    /**
+     * ----- switch will decide what to do new with the user input in the menu
+     * 1 show the filter on location/room
+     * 2 show filter on the date
+     * 3 show both filters in order to filter the meeting with both of those constraint------
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_filter_location:
                 showDialogLocation(false);
@@ -130,6 +141,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * ----- build and show the dialog filter on date ------
+     */
+
     private void showDialogDate(boolean filteredBoth) {
         dateDialog.setContentView(R.layout.custom_dialog_date);
         initWidgetDialog(dateDialog);
@@ -138,6 +153,14 @@ public class MainActivity extends AppCompatActivity {
         dateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dateDialog.show();
     }
+
+    /**
+     * ----- init every views the user can click on
+     * 1 textview "with range" which will collapse or expend itself in order to show another DatePicker
+     * 2 texview withoutrange which will collapse or expend itself in order to show a radio button group with 3 choices
+     * 3 cancel button in order to dismiss the dialog
+     * 4 a cross on the upper right corner in order to dismiss the dialog------
+     */
 
     private void initClickListenerDateDialog(final boolean filteredBoth) {
         withRange.setOnClickListener(new View.OnClickListener() {
@@ -165,21 +188,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chosenDate = new Date(datePicker.getDayOfMonth(), datePicker.getMonth() + 1, datePicker.getYear());
-                if (checkDialogInputRange(filteredBoth)) {
-                    Toast.makeText(MainActivity.this, "range",
-                            Toast.LENGTH_LONG)
-                            .show();
-
-                    if (filteredBoth) {
-                        filteredList1 = service.getFilteredMeetingListRange(chosenDate,
-                                new Date(datePickerRange.getDayOfMonth(), datePickerRange.getMonth(), datePickerRange.getYear()));
-                        showDialogLocation(filteredBoth);
-                    } else {
-                        mListMeeting = service.getFilteredMeetingListRange(chosenDate,
-                                new Date(datePickerRange.getDayOfMonth(), datePickerRange.getMonth(), datePickerRange.getYear()));
-                        initList();
-                    }
-                }
+                checkDialogInputRange(filteredBoth);
                 dateDialog.dismiss();
             }
         });
@@ -193,12 +202,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean checkDialogInputRange(boolean filteredBoth) {
+    /**
+     * ----- check if the date is right, and if so start filter
+     * 1 if both views (withoutRangeLayout && rangeLayout) have the same visibility (both collapsed or both extended) a toast with an error will appear
+     * 2 if the view withoutRangeLayout is visible, then the filter will take into account solely the radio button group
+     * 2.1 if choice is not null then init the recyclerview, else toast with an error
+     * 3 if range is expended first we check if the second date is greater than the first and then we return true in order to init the recyclerview with the meeting list in between the range
+     * ------
+     */
+
+    private void checkDialogInputRange(boolean filteredBoth) {
         if (withoutRangeLayout.getVisibility() == rangeLayout.getVisibility()) {
-            Toast.makeText(MainActivity.this, "You can choose only one filter method, please expend only the spinner or the radio button",
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.error_method_date_dialog),
                     Toast.LENGTH_LONG)
                     .show();
-            return false;
         } else if (withoutRangeLayout.getVisibility() == View.VISIBLE && rangeLayout.getVisibility() != View.VISIBLE) {
             Utils.EnumDate choice = null;
             if (radioButtonSpecific.isChecked()) {
@@ -209,28 +226,34 @@ public class MainActivity extends AppCompatActivity {
                 choice = Utils.EnumDate.after;
             }
             if (choice != null) {
-
                 if (filteredBoth) {
                     filteredList1 = service.getFilteredMeetingList(choice, chosenDate);
                     showDialogLocation(filteredBoth);
-                    return false;
                 } else mListMeeting = service.getFilteredMeetingList(choice, chosenDate);
                 initList();
-                return false;
             } else
-                Toast.makeText(MainActivity.this, "You have to choose at least on radio button",
+                Toast.makeText(MainActivity.this, getResources().getString(R.string.error_radiobutton_date),
                         Toast.LENGTH_LONG)
                         .show();
-            return false;
         } else {
             boolean range = Utils.compareDate(chosenDate,
                     new Date(datePickerRange.getDayOfMonth(), datePickerRange.getMonth(), datePickerRange.getYear()));
-            if (!range) {
-                Toast.makeText(MainActivity.this, "Please choose a second date bigger than the first date",
+
+            if (range) {
+                if (filteredBoth) {
+                    filteredList1 = service.getFilteredMeetingListRange(chosenDate,
+                            new Date(datePickerRange.getDayOfMonth(), datePickerRange.getMonth(), datePickerRange.getYear()));
+                    showDialogLocation(filteredBoth);
+                } else {
+                    mListMeeting = service.getFilteredMeetingListRange(chosenDate,
+                            new Date(datePickerRange.getDayOfMonth(), datePickerRange.getMonth(), datePickerRange.getYear()));
+                    initList();
+                }
+            } else {
+                Toast.makeText(MainActivity.this, getResources().getString(R.string.error_range_date),
                         Toast.LENGTH_LONG)
                         .show();
             }
-            return range;
         }
     }
 
@@ -248,6 +271,11 @@ public class MainActivity extends AppCompatActivity {
         radioButtonAfter = dateDialog.findViewById(R.id.date_dialog_radio_after);
         closeDialogDate = dateDialog.findViewById(R.id.close_cross_imageview);
     }
+
+
+    /**
+     * ----- build and show the dialog filter on location ------
+     */
 
     private void showDialogLocation(final boolean filteredBoth) {
         locationDialog.setContentView(R.layout.custom_dialog_location);
@@ -277,49 +305,47 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 chosenRooms = Utils.checkDialogBoxes(a, b, c, d, e, f, g, h, i, j);
                 if (chosenRooms.size() > 0) {
-                    Log.i("jevaistrouver", "laaa");
                     if (filteredBoth) {
-                        Log.i("jevaistrouver", "laaa222");
                         filteredList2 = service.getFilteredMeetingListLocation(chosenRooms);
                         mListMeeting = service.getFilteredBothMeetingList(filteredList1, filteredList2);
                     } else mListMeeting = service.getFilteredMeetingListLocation(chosenRooms);
                     initList();
                     locationDialog.dismiss();
                 } else
-                    Toast.makeText(MainActivity.this, "Nothing was chosen", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.nothing_chosen_dialog_filter_room), Toast.LENGTH_SHORT).show();
             }
         });
 
         addCheckBoxGroup1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setGroupVisibility(v,minimRadioGroup1,meetingRoom2);
+                setGroupVisibility(v, minimRadioGroup1, meetingRoom2);
             }
         });
 
         addCheckBoxGroup2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setGroupVisibility(v,minimRadioGroup2,meetingRoom3);
+                setGroupVisibility(v, minimRadioGroup2, meetingRoom3);
             }
         });
 
         minimRadioGroup1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setGroupVisibility(v,addCheckBoxGroup1,meetingRoom2);
+                setGroupVisibility(v, addCheckBoxGroup1, meetingRoom2);
             }
         });
 
         minimRadioGroup2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setGroupVisibility(v,addCheckBoxGroup2,meetingRoom3);
+                setGroupVisibility(v, addCheckBoxGroup2, meetingRoom3);
             }
         });
     }
 
-    private void setGroupVisibility(View v, ImageButton add, LinearLayout group){
+    private void setGroupVisibility(View v, ImageButton add, LinearLayout group) {
         setVisibilityView(v);
         setVisibilityView(add);
         setVisibilityView(group);
@@ -364,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
         service.deleteMeeting(event.meeting);
         mListMeeting = service.getMeetingList();
         initList();
-        Toast.makeText(this, "Meeting is deleted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.meeting_deleted_toast), Toast.LENGTH_SHORT).show();
     }
 
     @Override

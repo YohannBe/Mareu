@@ -1,11 +1,13 @@
 package com.example.mareu.view;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ public class ListMeetingPageAdapter extends RecyclerView.Adapter<ListMeetingPage
     private List<Meeting> mDataSet;
     Context context;
 
+
     public ListMeetingPageAdapter(List<Meeting> mDataSet, Context context) {
         this.mDataSet = mDataSet;
         this.context = context;
@@ -36,6 +39,7 @@ public class ListMeetingPageAdapter extends RecyclerView.Adapter<ListMeetingPage
 
         private TextView title_one, description;
         private ImageButton deleteButton;
+        private View avatar;
 
         public ViewHolder(View v) {
             super(v);
@@ -49,6 +53,7 @@ public class ListMeetingPageAdapter extends RecyclerView.Adapter<ListMeetingPage
             title_one = v.findViewById(R.id.item_list_name);
             description =  v.findViewById(R.id.item_list_description);
             deleteButton = v.findViewById(R.id.item_list_delete_button);
+            avatar = v.findViewById(R.id.item_list_avatar);
         }
 
     }
@@ -85,6 +90,8 @@ public class ListMeetingPageAdapter extends RecyclerView.Adapter<ListMeetingPage
        String sentenceTitle = "Réunion " + meeting.getLocation() + " - " + meeting.getHour().hourToString() +
                 " - " + meeting.getUser().getUserName();
         viewHolder.title_one.setText(sentenceTitle);
+        Drawable drawable = context.getDrawable(meeting.getDrawable());
+        viewHolder.avatar.setBackground(drawable);
 
         String listMail = "";
         for (int i = 0; i<meeting.getListMail().size(); i++){

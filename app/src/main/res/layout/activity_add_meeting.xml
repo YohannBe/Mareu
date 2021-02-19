@@ -8,255 +8,317 @@
     android:orientation="vertical"
     tools:context=".AddMeeting">
 
-    <FrameLayout
+    <ImageButton
+        android:id="@+id/arrow_back_imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:contentDescription="@string/arrow_back_contentdescription"
+        android:onClick="close"
+        android:src="@drawable/arrow_back" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/parent_linear_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/parent_linear_layout"
+            <TextView
+                android:id="@+id/location_textview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/room"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/location_textview"
-                    android:layout_width="match_parent"
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginHorizontal="20dp">
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:gravity="center_horizontal"
-                    android:text="Room"
-                    android:textSize="20sp" />
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp">
-                    <RadioGroup
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_a"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center_vertical">
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_a"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="A"
-                            android:textColor="@color/black" />
+                        android:layout_gravity="center_horizontal"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/a"
+                        android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_b"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="B"
-                            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_b"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/b"
+                        android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_c"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="C"
-                            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_c"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/c"
+                        android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_d"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="D"
-                            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_d"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/d"
+                        android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_e"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="E"
-                            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_e"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/e"
+                        android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_f"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="F"
-                            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_f"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/f"
+                        android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_g"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="G"
-                            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_g"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/g"
+                        android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_h"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="H"
-                            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/h"
+                        android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_i"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="I"
-                            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_i"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/i"
+                        android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/add_meeting_radio_button_j"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:buttonTint="@color/secondaryDarker"
-                            android:text="J"
-                            android:textColor="@color/black" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_button_j"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/secondaryDarker"
+                        android:text="@string/j"
+                        android:textColor="@color/black" />
 
-                    </RadioGroup>
-                </HorizontalScrollView>
+                </RadioGroup>
+            </HorizontalScrollView>
 
-                <TextView
-                    android:id="@+id/date_collapse"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20sp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center_horizontal"
-                    android:onClick="showCalendar"
-                    android:text="Date"
-                    android:textSize="20sp"
-                    app:drawableEndCompat="@drawable/slide_down_arrow" />
+            <TextView
+                android:id="@+id/date_collapse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:onClick="showCalendar"
+                android:text="@string/date"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:drawableEndCompat="@drawable/slide_down_arrow" />
 
-                <DatePicker
-                    android:id="@+id/date_calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone" />
+            <DatePicker
+                android:id="@+id/date_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/hour_collapse"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20sp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center_horizontal"
-                    android:onClick="showTimePiker"
-                    android:text="Hour"
-                    android:textSize="20sp"
-                    app:drawableEndCompat="@drawable/slide_down_arrow" />
+            <TextView
+                android:id="@+id/hour_collapse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:onClick="showTimePiker"
+                android:text="@string/hour"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:drawableEndCompat="@drawable/slide_down_arrow" />
 
-                <TimePicker
-                    android:id="@+id/hour_timepicker"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"></TimePicker>
+            <TimePicker
+                android:id="@+id/hour_timepicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/add_description_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20sp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center_horizontal"
-                    android:text="Meeting's description"
-                    android:textSize="20sp" />
+            <TextView
+                android:id="@+id/add_description_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:text="@string/meeting_s_description"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-                <EditText
-                    android:id="@+id/description_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="10dp"
-                    android:hint="What will be the main topic..."
-                    android:textSize="20sp" />
+            <EditText
+                android:id="@+id/description_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/what_will_be_the_main_topic"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/user_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20sp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center_horizontal"
-                    android:text="User's detail"
-                    android:textSize="20sp" />
+            <TextView
+                android:id="@+id/user_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:text="@string/admin_s_details"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-                <EditText
-                    android:id="@+id/userName_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="10dp"
-                    android:hint="Type your userName"
-                    android:textSize="20sp" />
+            <EditText
+                android:id="@+id/userName_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/type_your_username"
+                android:inputType="textPersonName"
+                android:textSize="20sp" />
 
-                <EditText
-                    android:id="@+id/userMail_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="10dp"
-                    android:hint="Type your mail address"
-                    android:textSize="20sp" />
+            <EditText
+                android:id="@+id/userMail_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/type_your_mail_address"
+                android:inputType="textEmailAddress"
+                android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/add_participant_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20sp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center_horizontal"
-                    android:text="Add participant"
-                    android:textSize="20sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/choose_a_meeting_color"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-                <ImageButton
-                    android:id="@+id/add_participant_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:background="@null"
-                    android:onClick="onAddField"
-                    android:src="@drawable/add_icon" />
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <Button
+                <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
-                    android:onClick="checkDialog"
-                    android:text="@string/create_meeting"
-                    android:textAllCaps="false">
+                    android:orientation="horizontal">
 
-                </Button>
-            </LinearLayout>
-        </ScrollView>
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:buttonTint="@color/blueCircle"
+                        android:text="@string/blue"
+                        android:textColor="@color/blueCircle" />
 
-        <ImageButton
-            android:id="@+id/arrow_back_imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@null"
-            android:contentDescription="@string/arrow_back_contentdescription"
-            android:onClick="close"
-            android:src="@drawable/arrow_back" />
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:buttonTint="@color/redCircle"
+                        android:text="@string/red"
+                        android:textColor="@color/redCircle" />
 
-    </FrameLayout>
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_purple"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:buttonTint="@color/purpleCircle"
+                        android:text="@string/purple"
+                        android:textColor="@color/purpleCircle" />
+
+                    <RadioButton
+                        android:id="@+id/add_meeting_radio_orange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:buttonTint="@color/orangeCircle"
+                        android:text="@string/orange"
+                        android:textColor="@color/orangeCircle" />
+                </RadioGroup>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/add_participant_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:text="@string/add_participant"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/add_participant_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:onClick="onAddField"
+                android:src="@drawable/ic_baseline_add_24" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:onClick="checkDialog"
+                android:text="@string/create_meeting"
+                android:textAllCaps="false">
+
+            </Button>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

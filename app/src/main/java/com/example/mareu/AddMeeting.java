@@ -1,12 +1,16 @@
 package com.example.mareu;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.transition.AutoTransition;
@@ -40,19 +44,20 @@ import java.util.List;
 
 
 public class AddMeeting extends AppCompatActivity {
-    private boolean hiddenCalendar, hiddenTimePicker;
-    private EditText locationEditText, descriptionEdittext, userNameEdittext, userMailEdittext;
+    private boolean hiddenTimePicker, hiddenCalendar;
+    private EditText descriptionEdittext, userNameEdittext, userMailEdittext;
     private TimePicker timePicker;
     private DatePicker datePicker;
     private LinearLayout parentLinearLayout;
     private List<View> rowViewList = new ArrayList<View>();
     private Dialog resumeDialog;
-    private ImageView close;
+    private ImageView close, mCircle;
     private TextView userText, locationText, dateText, hourText, descriptionText, userDateAskedText;
     private Button addNewMeetingButton, cancelDialog;
     private Meeting meeting;
     private ListMeetingApiService service;
-    private RadioButton a, b, c, d, e, f, g, h, i, j;
+    private RadioButton a, b, c, d, e, f, g, h, i, j, blue, red, purple, orange;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,23 +67,11 @@ public class AddMeeting extends AppCompatActivity {
         initWidget();
     }
 
-    private void setGroupVisibility(View v, ImageButton addRadio, LinearLayout RadioGroup){
-        setVisibilityView(v);
-        setVisibilityView(addRadio);
-        setVisibilityView(RadioGroup);
-    }
-
-    private void setVisibilityView(View v) {
-        if (v.getVisibility() == View.VISIBLE)
-            v.setVisibility(View.GONE);
-        else v.setVisibility(View.VISIBLE);
-    }
-
 
     private void initWidget() {
         service = Injection.getListMeetingService();
-        hiddenCalendar = true;
         hiddenTimePicker = true;
+        hiddenCalendar = true;
         a = findViewById(R.id.add_meeting_radio_button_a);
         b = findViewById(R.id.add_meeting_radio_button_b);
         c = findViewById(R.id.add_meeting_radio_button_c);
@@ -89,6 +82,10 @@ public class AddMeeting extends AppCompatActivity {
         h = findViewById(R.id.add_meeting_radio_button_h);
         i = findViewById(R.id.add_meeting_radio_button_i);
         j = findViewById(R.id.add_meeting_radio_button_j);
+        blue = findViewById(R.id.add_meeting_radio_blue);
+        red = findViewById(R.id.add_meeting_radio_red);
+        purple = findViewById(R.id.add_meeting_radio_purple);
+        orange = findViewById(R.id.add_meeting_radio_orange);
         timePicker = findViewById(R.id.hour_timepicker);
         datePicker = findViewById(R.id.date_calendar);
         parentLinearLayout = findViewById(R.id.parent_linear_layout);
@@ -161,7 +158,7 @@ public class AddMeeting extends AppCompatActivity {
         List<String> getText = getTextFromEditTextParticipant();
 
         if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(hour) && getText != null && location != null) {
-            meeting = new Meeting(hourObject, dateObject, dateObject, location, getText, user, description);
+            meeting = new Meeting(hourObject, dateObject, dateObject, location, getText, user, description, getCircle());
             openDialog(location, date, hour, description, userName, userMail);
         } else
             Toast.makeText(this, "Oups something went wrong", Toast.LENGTH_SHORT).show();
@@ -198,6 +195,7 @@ public class AddMeeting extends AppCompatActivity {
         resumeDialog.setContentView(R.layout.custom_dialogtwo);
         initDialog(resumeDialog);
         initText(location, date, hour, description, userName, userMail);
+        initCircle();
         resumeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,6 +220,29 @@ public class AddMeeting extends AppCompatActivity {
         resumeDialog.show();
     }
 
+    private void initCircle() {
+        if (blue.isChecked())
+            mCircle.setImageResource(R.drawable.circle_view_blue);
+         else if (red.isChecked())
+            mCircle.setImageResource(R.drawable.circle_view_red);
+         else if (purple.isChecked())
+            mCircle.setImageResource(R.drawable.circle_view_purple);
+         else if (orange.isChecked())
+            mCircle.setImageResource(R.drawable.circle_view_orange);
+    }
+
+    private int getCircle() {
+        if (blue.isChecked())
+            return R.drawable.circle_view_blue;
+        else if (red.isChecked())
+            return R.drawable.circle_view_red;
+        else if (purple.isChecked())
+            return R.drawable.circle_view_purple;
+        else if (orange.isChecked())
+            return R.drawable.circle_view_orange;
+        return R.drawable.circle_view;
+    }
+
     private void initText(String location, String date, String hour, String description, String userName, String userMail) {
         userText.setText("Admin: "+userName);
         locationText.setText("Room: "+location);
@@ -243,6 +264,7 @@ public class AddMeeting extends AppCompatActivity {
         close = resumeDialog.findViewById(R.id.close_cross_imageview);
         addNewMeetingButton = resumeDialog.findViewById(R.id.dialog_button_add);
         cancelDialog = resumeDialog.findViewById(R.id.dialog_button_cancel);
+        mCircle = resumeDialog.findViewById(R.id.add_meeting_dialog_circle);
     }
 
     private String checkAndAddString(EditText editText) {
@@ -272,4 +294,7 @@ public class AddMeeting extends AppCompatActivity {
         finish();
     }
 
+    public void changeColor(View view) {
+
+    }
 }
