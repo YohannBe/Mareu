@@ -28,7 +28,7 @@ public class ListMeetingServiceTest extends TestCase {
         mail.add("first@");
         mail.add("second@");
         Meeting meeting = new Meeting(new Hour(10, 50), new Date(20, 10, 2021), new Date(19, 2, 2021),
-                "B", mail, new User("Dobby", "Dobby@"), "Phoenix order", R.drawable.circle_view_blue);
+                "B", mail, new User("Dobby", "Dobby@"), "Phoenix order", R.drawable.circle_view_blue, new Hour(1, 30));
         meetingList.add(meeting);
 
         assertEquals(expectedSize + 1, meetingList.size());
@@ -119,15 +119,18 @@ public class ListMeetingServiceTest extends TestCase {
 
     @Test
     public void testGetFilteredBothMeetingList() {
-        List<Meeting> meetingList = service.getMeetingList();
+        List<Meeting> meetingList;
         ArrayList<Utils.EnumRoom> boxes = new ArrayList<>();
         boxes.add(Utils.EnumRoom.A);
-        List<Meeting> meetingListFiltered1 = service.getFilteredMeetingListLocation(boxes);
+
+        ListMeetingService parallelList1 = new ListMeetingService();
+        List<Meeting> meetingListFiltered1 = parallelList1.getFilteredMeetingListLocation(boxes);
         int expectedSize = 3;
         assertEquals(expectedSize, meetingListFiltered1.size());
 
         int expected = 4;
-        List<Meeting> meetingListFiltered2 = service.getFilteredMeetingListRange(new Date(19, 2, 2021),
+        ListMeetingService parallelList2 = new ListMeetingService();
+        List<Meeting> meetingListFiltered2 = parallelList2.getFilteredMeetingListRange(new Date(19, 2, 2021),
                 new Date(19, 2, 2022));
         assertEquals(expected, meetingListFiltered2.size());
 

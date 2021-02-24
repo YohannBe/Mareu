@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Meeting {
 
-    private Hour hour;
+    private Hour hour, duration;
     private Date meetingDate, userAsked;
     private String location, description;
     private List<String> listMail;
@@ -22,7 +22,15 @@ public class Meeting {
 
     private int drawable;
 
-    public Meeting(Hour hour, Date meetingDate, Date userAsked, String location, List<String> listMail, User user, String description, int drawable) {
+    public Hour getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Hour duration) {
+        this.duration = duration;
+    }
+
+    public Meeting(Hour hour, Date meetingDate, Date userAsked, String location, List<String> listMail, User user, String description, int drawable, Hour duration) {
         this.hour = hour;
         this.meetingDate = meetingDate;
         this.userAsked = userAsked;
@@ -31,6 +39,7 @@ public class Meeting {
         this.user = user;
         this.description = description;
         this.drawable = drawable;
+        this.duration = duration;
     }
 
     public String getDescription() {

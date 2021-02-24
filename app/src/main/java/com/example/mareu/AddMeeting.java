@@ -1,16 +1,12 @@
 package com.example.mareu;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.transition.AutoTransition;
@@ -19,10 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -41,18 +35,19 @@ import com.example.mareu.utils.Utils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class AddMeeting extends AppCompatActivity {
     private boolean hiddenTimePicker, hiddenCalendar;
-    private EditText descriptionEdittext, userNameEdittext, userMailEdittext;
+    private EditText descriptionEdittext, userNameEdittext, userMailEdittext, durationHour, durationMinute;
     private TimePicker timePicker;
     private DatePicker datePicker;
     private LinearLayout parentLinearLayout;
     private final List<View> rowViewList = new ArrayList<>();
     private Dialog resumeDialog;
     private ImageView close, mCircle;
-    private TextView userText, locationText, dateText, hourText, descriptionText, userDateAskedText;
+    private TextView userText, locationText, dateText, hourText, descriptionText, userDateAskedText, durationTextView;
     private Button addNewMeetingButton, cancelDialog;
     private Meeting meeting;
     private ListMeetingApiService service;
@@ -65,6 +60,9 @@ public class AddMeeting extends AppCompatActivity {
         setContentView(R.layout.activity_add_meeting);
 
         initWidget();
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
 
@@ -93,8 +91,9 @@ public class AddMeeting extends AppCompatActivity {
         userNameEdittext = findViewById(R.id.userName_edittext);
         userMailEdittext = findViewById(R.id.userMail_edittext);
         resumeDialog = new Dialog(this);
+        durationHour = findViewById(R.id.add_meeting_duration_hour);
+        durationMinute = findViewById(R.id.add_meeting_duration_minute);
     }
-
 
 
     public void onAddField(View v) {
@@ -139,11 +138,11 @@ public class AddMeeting extends AppCompatActivity {
 
     public void checkDialog(View view) {
 
-        String location, date, hour, description, userName, userMail;
+        String location, date, hour, description, userName, userMail, duration;
 
         location = checkAndAddLocation(a, b, c, d, e, f, g, h, i, j);
 
-        Date dateObject = new Date(datePicker.getDayOfMonth(), datePicker.getMonth(), datePicker.getYear());
+        Date dateObject = new Date(datePicker.getDayOfMonth(), datePicker.getMonth() + 1, datePicker.getYear());
         date = Utils.dateToString(dateObject);
 
         Hour hourObject = new Hour(timePicker.getHour(), timePicker.getMinute());
@@ -153,15 +152,30 @@ public class AddMeeting extends AppCompatActivity {
         userMail = checkAndAddString(userMailEdittext);
         User user = new User(userName, userMail);
 
+        String hourDuration = durationHour.getText().toString();
+        String minuteDuration = durationMinute.getText().toString();
+
+
         description = checkAndAddString(descriptionEdittext);
 
         List<String> getText = getTextFromEditTextParticipant();
 
-        if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(hour) && getText != null && location != null) {
-            meeting = new Meeting(hourObject, dateObject, dateObject, location, getText, user, description, getCircle());
-            openDialog(location, date, hour, description, userName, userMail);
+        if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(hour) && getText != null && location != null && checkDuration(hourDuration, minuteDuration)
+                && Utils.checkMeetingDisponibility(service, location, dateObject, hourObject, hourDuration, minuteDuration, getApplicationContext())) {
+            Hour durationObject = new Hour(Integer.parseInt(hourDuration), Integer.parseInt(minuteDuration));
+            meeting = new Meeting(hourObject, dateObject, dateObject, location, getText, user, description, getCircle(), durationObject);
+            openDialog(location, date, hour, description, userName, userMail, durationObject);
         } else
-            Toast.makeText(this, "Oups something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean checkDuration(String hourDuration, String minuteDuration) {
+
+        if (TextUtils.isEmpty(hourDuration) || TextUtils.isEmpty(minuteDuration) || Integer.parseInt(minuteDuration) >= 60 ||
+                Integer.parseInt(minuteDuration) < 0 || Integer.parseInt(hourDuration) < 0)
+            return false;
+        else
+            return true;
     }
 
     private String checkAndAddLocation(RadioButton a, RadioButton b, RadioButton c, RadioButton d, RadioButton e, RadioButton f, RadioButton g, RadioButton h, RadioButton i, RadioButton j) {
@@ -190,32 +204,19 @@ public class AddMeeting extends AppCompatActivity {
         return null;
     }
 
-    private void openDialog(String location, String date, String hour, String description, String userName, String userMail) {
+    private void openDialog(String location, String date, String hour, String description, String userName, String userMail, Hour durationObject) {
 
         resumeDialog.setContentView(R.layout.custom_dialogtwo);
         initDialog(resumeDialog);
-        initText(location, date, hour, description, userName, userMail);
+        initText(location, date, hour, description, userName, durationObject);
         initCircle();
         resumeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resumeDialog.dismiss();
-            }
-        });
-        cancelDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resumeDialog.dismiss();
-            }
-        });
-        addNewMeetingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                service.addMeeting(meeting);
-                Intent toMainActivity = new Intent(AddMeeting.this, MainActivity.class);
-                startActivity(toMainActivity);
-            }
+        close.setOnClickListener(v -> resumeDialog.dismiss());
+        cancelDialog.setOnClickListener(v -> resumeDialog.dismiss());
+        addNewMeetingButton.setOnClickListener(v -> {
+            service.addMeeting(meeting);
+            Intent toMainActivity = new Intent(AddMeeting.this, MainActivity.class);
+            startActivity(toMainActivity);
         });
         resumeDialog.show();
     }
@@ -223,11 +224,11 @@ public class AddMeeting extends AppCompatActivity {
     private void initCircle() {
         if (blue.isChecked())
             mCircle.setImageResource(R.drawable.circle_view_blue);
-         else if (red.isChecked())
+        else if (red.isChecked())
             mCircle.setImageResource(R.drawable.circle_view_red);
-         else if (purple.isChecked())
+        else if (purple.isChecked())
             mCircle.setImageResource(R.drawable.circle_view_purple);
-         else if (orange.isChecked())
+        else if (orange.isChecked())
             mCircle.setImageResource(R.drawable.circle_view_orange);
     }
 
@@ -243,15 +244,24 @@ public class AddMeeting extends AppCompatActivity {
         return R.drawable.circle_view;
     }
 
-    private void initText(String location, String date, String hour, String description, String userName, String userMail) {
-        userText.setText("Admin: "+userName);
-        locationText.setText("Room: "+location);
-        dateText.setText("Date: "+date);
-        hourText.setText("Hour: "+hour);
-        descriptionText.setText("Topic: "+description);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        String currentDate = sdf.format(new java.util.Date());
-        userDateAskedText.setText("Made the: "+currentDate);
+    private void initText(String location, String date, String hour, String description, String userName, Hour durationObject) {
+
+        String userNameS = getString(R.string.admin_field_dialog_resum) + userName;
+        String roomS = getString(R.string.room_field_dialog_resum) + location;
+        String dateS = getString(R.string.date_field_dialog_resum) + date;
+        String hourS = getString(R.string.hour_field_dialog_resum) + hour;
+        String topicS = getString(R.string.topic_field_dialog_resum) + description;
+        SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.pattern_date));
+        String currentDate = getString(R.string.made_the_field_dialog_resum) + sdf.format(new java.util.Date());
+        String durationS = getString(R.string.duration_add_meeting) + Utils.hourToString(durationObject);
+
+        userText.setText(userNameS);
+        locationText.setText(roomS);
+        dateText.setText(dateS);
+        hourText.setText(hourS);
+        descriptionText.setText(topicS);
+        userDateAskedText.setText(currentDate);
+        durationTextView.setText(durationS);
     }
 
     private void initDialog(Dialog resumeDialog) {
@@ -265,6 +275,7 @@ public class AddMeeting extends AppCompatActivity {
         addNewMeetingButton = resumeDialog.findViewById(R.id.dialog_button_add);
         cancelDialog = resumeDialog.findViewById(R.id.dialog_button_cancel);
         mCircle = resumeDialog.findViewById(R.id.add_meeting_dialog_circle);
+        durationTextView = resumeDialog.findViewById(R.id.dialog_duration);
     }
 
     private String checkAndAddString(EditText editText) {
@@ -288,13 +299,5 @@ public class AddMeeting extends AppCompatActivity {
         if (allParticipant.size() != 0)
             return allParticipant;
         else return null;
-    }
-
-    public void close(View view) {
-        finish();
-    }
-
-    public void changeColor(View view) {
-
     }
 }

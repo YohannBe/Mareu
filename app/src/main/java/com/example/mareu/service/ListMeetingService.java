@@ -15,9 +15,11 @@ import static com.example.mareu.service.DummyMeetingGenerator.generateListMail;
 import static com.example.mareu.utils.Utils.EnumDate.specific;
 
 public class ListMeetingService implements ListMeetingApiService {
-    private final ArrayList<Meeting> meetingList = (ArrayList<Meeting>) generateList();
+    private ArrayList<Meeting> meetingList = (ArrayList<Meeting>) generateList();
     public static ArrayList<String> listMail = (ArrayList<String>) generateListMail();
     private final ArrayList<Meeting> meetingListFiltered = new ArrayList<>();
+    private final ArrayList<Meeting> meetingListFiltered1 = new ArrayList<>();
+    private final ArrayList<Meeting> meetingListFiltered2 = new ArrayList<>();
 
 
     public void addMeeting(Meeting meeting) {
@@ -54,6 +56,11 @@ public class ListMeetingService implements ListMeetingApiService {
 
     public void clearListMail() {
         listMail.clear();
+    }
+
+
+    public ArrayList<Meeting> getMeetingListFiltered2() {
+        return meetingListFiltered2;
     }
 
     @Override
@@ -96,23 +103,23 @@ public class ListMeetingService implements ListMeetingApiService {
     @Override
     public List<Meeting> getFilteredMeetingListLocation(ArrayList<Utils.EnumRoom> boxes) {
 
-        meetingListFiltered.clear();
+        meetingListFiltered2.clear();
         for (int i = 0; i < meetingList.size(); i++) {
             for (int j = 0; j < boxes.size(); j++) {
                 if (meetingList.get(i).getLocation().equals(String.valueOf(boxes.get(j).toString())))
-                    meetingListFiltered.add(meetingList.get(i));
+                    meetingListFiltered2.add(meetingList.get(i));
             }
         }
-        return meetingListFiltered;
+        return meetingListFiltered2;
     }
 
     @Override
     public List<Meeting> getFilteredBothMeetingList(List<Meeting> filteredList1, List<Meeting> filteredList2) {
-        meetingListFiltered.clear();
+        meetingListFiltered1.clear();
         for (int i = 0; i < filteredList1.size(); i++) {
             if (filteredList2.contains(filteredList1.get(i)))
-                meetingListFiltered.add(filteredList1.get(i));
+                meetingListFiltered1.add(filteredList1.get(i));
         }
-        return meetingListFiltered;
+        return meetingListFiltered1;
     }
 }

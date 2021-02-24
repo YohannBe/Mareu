@@ -50,4 +50,14 @@
     <string name="close_dialog">close dialog</string>
     <string name="show_checkboxes">show checkboxes</string>
     <string name="delelt_meeting_item">delelt meeting item</string>
+    <string name="admin_field_dialog_resum">Admin: </string>
+    <string name="room_field_dialog_resum">Room: </string>
+    <string name="date_field_dialog_resum">Date: </string>
+    <string name="hour_field_dialog_resum">Hour: </string>
+    <string name="topic_field_dialog_resum">Topic: </string>
+    <string name="made_the_field_dialog_resum">Made the: </string>
+    <string name="duration_add_meeting">Duration</string>
+    <string name="minute">minute</string>
+    <string name="pattern_date">dd.MM.yyyy</string>
+    <string name="error">Oups something went wrong</string>
 </resources>

@@ -32,4 +32,6 @@ public interface ListMeetingApiService {
     List<Meeting> getFilteredMeetingListLocation(ArrayList<Utils.EnumRoom> boxes);
 
     List<Meeting> getFilteredBothMeetingList(List<Meeting> filteredList1, List<Meeting> filteredList2);
+
+    ArrayList<Meeting> getMeetingListFiltered2();
 }
