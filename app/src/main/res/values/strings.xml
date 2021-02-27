@@ -56,7 +56,7 @@
     <string name="hour_field_dialog_resum">Hour: </string>
     <string name="topic_field_dialog_resum">Topic: </string>
     <string name="made_the_field_dialog_resum">Made the: </string>
-    <string name="duration_add_meeting">Duration</string>
+    <string name="duration_add_meeting">Duration: </string>
     <string name="minute">minute</string>
     <string name="pattern_date">dd.MM.yyyy</string>
     <string name="error">Oups something went wrong</string>

@@ -52,5 +52,4 @@ public class AddMeetingTest extends TestCase {
 
         onView(ViewMatchers.withId(R.id.add_meeting)).check(matches(withViewCount(withId(R.id.item_participant), 2)));
     }
-
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.mareu.AddMeeting;
@@ -127,6 +129,15 @@ public class Utils {
         return false;
     }
 
+    public static boolean checkDuration(String hourDuration, String minuteDuration) {
+
+        if (TextUtils.isEmpty(hourDuration) || TextUtils.isEmpty(minuteDuration) || Integer.parseInt(minuteDuration) >= 60 ||
+                Integer.parseInt(minuteDuration) < 0 || Integer.parseInt(hourDuration) < 0)
+            return false;
+        else
+            return true;
+    }
+
     /**
      * ----------------- filter -----------------
      */
@@ -203,5 +214,45 @@ public class Utils {
             }
         }
         return true;
+    }
+
+
+    /**-------- room ----------*/
+
+    public static String checkAndAddLocation(Context context, RadioButton a, RadioButton b, RadioButton c, RadioButton d, RadioButton e, RadioButton f, RadioButton g, RadioButton h, RadioButton i, RadioButton j) {
+
+        if (a.isChecked())
+            return "A";
+        if (b.isChecked())
+            return "B";
+        if (c.isChecked())
+            return "C";
+        if (d.isChecked())
+            return "D";
+        if (e.isChecked())
+            return "E";
+        if (f.isChecked())
+            return "F";
+        if (g.isChecked())
+            return "G";
+        if (h.isChecked())
+            return "H";
+        if (i.isChecked())
+            return "I";
+        if (j.isChecked())
+            return "J";
+        Toast.makeText(context, "it seems that some fields are missing", Toast.LENGTH_SHORT).show();
+        return null;
+    }
+
+    /**-------user --------*/
+
+    public static String checkAndAddString(Context context, EditText editText) {
+        if (!TextUtils.isEmpty(editText.getText().toString()))
+            return editText.getText().toString();
+        else {
+            Toast.makeText(context, "it seems that some fields are missing", Toast.LENGTH_SHORT).show();
+        }
+        return null;
     }
 }

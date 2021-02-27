@@ -39,7 +39,6 @@ import java.util.Objects;
 
 
 public class AddMeeting extends AppCompatActivity {
-    private boolean hiddenTimePicker, hiddenCalendar;
     private EditText descriptionEdittext, userNameEdittext, userMailEdittext, durationHour, durationMinute;
     private TimePicker timePicker;
     private DatePicker datePicker;
@@ -52,6 +51,7 @@ public class AddMeeting extends AppCompatActivity {
     private Meeting meeting;
     private ListMeetingApiService service;
     private RadioButton a, b, c, d, e, f, g, h, i, j, blue, red, purple, orange;
+    private Context context;
 
 
     @Override
@@ -59,17 +59,16 @@ public class AddMeeting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meeting);
 
-        initWidget();
+        initAddMeetingActivity();
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
 
-    private void initWidget() {
+    private void initAddMeetingActivity() {
         service = Injection.getListMeetingService();
-        hiddenTimePicker = true;
-        hiddenCalendar = true;
+        context = getApplicationContext();
         a = findViewById(R.id.add_meeting_radio_button_a);
         b = findViewById(R.id.add_meeting_radio_button_b);
         c = findViewById(R.id.add_meeting_radio_button_c);
@@ -109,26 +108,22 @@ public class AddMeeting extends AppCompatActivity {
     }
 
     public void showCalendar(View view) {
-        if (hiddenCalendar) {
+        if (datePicker.getVisibility() == View.GONE) {
             startTransformation(view);
             datePicker.setVisibility(View.VISIBLE);
-            hiddenCalendar = false;
         } else {
             startTransformation(view);
             datePicker.setVisibility(View.GONE);
-            hiddenCalendar = true;
         }
     }
 
     public void showTimePiker(View view) {
-        if (hiddenTimePicker) {
+        if (timePicker.getVisibility() == View.GONE) {
             startTransformation(view);
             timePicker.setVisibility(View.VISIBLE);
-            hiddenTimePicker = false;
         } else {
             startTransformation(view);
             timePicker.setVisibility(View.GONE);
-            hiddenTimePicker = true;
         }
     }
 
@@ -140,7 +135,7 @@ public class AddMeeting extends AppCompatActivity {
 
         String location, date, hour, description, userName, userMail, duration;
 
-        location = checkAndAddLocation(a, b, c, d, e, f, g, h, i, j);
+        location = Utils.checkAndAddLocation(context, a, b, c, d, e, f, g, h, i, j);
 
         Date dateObject = new Date(datePicker.getDayOfMonth(), datePicker.getMonth() + 1, datePicker.getYear());
         date = Utils.dateToString(dateObject);
@@ -148,60 +143,25 @@ public class AddMeeting extends AppCompatActivity {
         Hour hourObject = new Hour(timePicker.getHour(), timePicker.getMinute());
         hour = Utils.hourToString(hourObject);
 
-        userName = checkAndAddString(userNameEdittext);
-        userMail = checkAndAddString(userMailEdittext);
+        userName = Utils.checkAndAddString(context, userNameEdittext);
+        userMail = Utils.checkAndAddString(context, userMailEdittext);
         User user = new User(userName, userMail);
 
         String hourDuration = durationHour.getText().toString();
         String minuteDuration = durationMinute.getText().toString();
 
 
-        description = checkAndAddString(descriptionEdittext);
+        description = Utils.checkAndAddString(context, descriptionEdittext);
 
         List<String> getText = getTextFromEditTextParticipant();
 
-        if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(hour) && getText != null && location != null && checkDuration(hourDuration, minuteDuration)
+        if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(hour) && getText != null && location != null && Utils.checkDuration(hourDuration, minuteDuration)
                 && Utils.checkMeetingDisponibility(service, location, dateObject, hourObject, hourDuration, minuteDuration, getApplicationContext())) {
             Hour durationObject = new Hour(Integer.parseInt(hourDuration), Integer.parseInt(minuteDuration));
             meeting = new Meeting(hourObject, dateObject, dateObject, location, getText, user, description, getCircle(), durationObject);
             openDialog(location, date, hour, description, userName, userMail, durationObject);
         } else
             Toast.makeText(this, getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-    }
-
-    private boolean checkDuration(String hourDuration, String minuteDuration) {
-
-        if (TextUtils.isEmpty(hourDuration) || TextUtils.isEmpty(minuteDuration) || Integer.parseInt(minuteDuration) >= 60 ||
-                Integer.parseInt(minuteDuration) < 0 || Integer.parseInt(hourDuration) < 0)
-            return false;
-        else
-            return true;
-    }
-
-    private String checkAndAddLocation(RadioButton a, RadioButton b, RadioButton c, RadioButton d, RadioButton e, RadioButton f, RadioButton g, RadioButton h, RadioButton i, RadioButton j) {
-
-        if (a.isChecked())
-            return "A";
-        if (b.isChecked())
-            return "B";
-        if (c.isChecked())
-            return "C";
-        if (d.isChecked())
-            return "D";
-        if (e.isChecked())
-            return "E";
-        if (f.isChecked())
-            return "F";
-        if (g.isChecked())
-            return "G";
-        if (h.isChecked())
-            return "H";
-        if (i.isChecked())
-            return "I";
-        if (j.isChecked())
-            return "J";
-        Toast.makeText(AddMeeting.this, "it seems that some fields are missing", Toast.LENGTH_SHORT).show();
-        return null;
     }
 
     private void openDialog(String location, String date, String hour, String description, String userName, String userMail, Hour durationObject) {
@@ -246,14 +206,14 @@ public class AddMeeting extends AppCompatActivity {
 
     private void initText(String location, String date, String hour, String description, String userName, Hour durationObject) {
 
-        String userNameS = getString(R.string.admin_field_dialog_resum) + userName;
-        String roomS = getString(R.string.room_field_dialog_resum) + location;
-        String dateS = getString(R.string.date_field_dialog_resum) + date;
-        String hourS = getString(R.string.hour_field_dialog_resum) + hour;
-        String topicS = getString(R.string.topic_field_dialog_resum) + description;
+        String userNameS = getString(R.string.admin_field_dialog_resum) +" "+ userName;
+        String roomS = getString(R.string.room_field_dialog_resum)+" " + location;
+        String dateS = getString(R.string.date_field_dialog_resum)+" " + date;
+        String hourS = getString(R.string.hour_field_dialog_resum)+" " + hour;
+        String topicS = getString(R.string.topic_field_dialog_resum) +" "+ description;
         SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.pattern_date));
-        String currentDate = getString(R.string.made_the_field_dialog_resum) + sdf.format(new java.util.Date());
-        String durationS = getString(R.string.duration_add_meeting) + Utils.hourToString(durationObject);
+        String currentDate = getString(R.string.made_the_field_dialog_resum) +" " + sdf.format(new java.util.Date());
+        String durationS = getString(R.string.duration_add_meeting)+" " + Utils.hourToString(durationObject);
 
         userText.setText(userNameS);
         locationText.setText(roomS);
@@ -276,15 +236,6 @@ public class AddMeeting extends AppCompatActivity {
         cancelDialog = resumeDialog.findViewById(R.id.dialog_button_cancel);
         mCircle = resumeDialog.findViewById(R.id.add_meeting_dialog_circle);
         durationTextView = resumeDialog.findViewById(R.id.dialog_duration);
-    }
-
-    private String checkAndAddString(EditText editText) {
-        if (!TextUtils.isEmpty(editText.getText().toString()))
-            return editText.getText().toString();
-        else {
-            Toast.makeText(AddMeeting.this, "it seems that some fields are missing", Toast.LENGTH_SHORT).show();
-        }
-        return null;
     }
 
     private List<String> getTextFromEditTextParticipant() {

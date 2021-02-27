@@ -1,169 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="450dp"
-    android:layout_gravity="center"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-    app:cardBackgroundColor="@color/secondaryLighter"
-    app:cardCornerRadius="15dp">
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
 
-    <ImageView
-        android:id="@+id/close_cross_imageview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_baseline_close_24" />
-
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:cardBackgroundColor="@color/secondaryLighter"
+        app:cardCornerRadius="15dp">
 
-        <TextView
-            android:id="@+id/date_dialog_filter_textview"
+        <ImageView
+            android:id="@+id/close_cross_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_baseline_close_24" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/filter_date"
-            android:textColor="@color/black"
-            android:textSize="30sp" />
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="330dp"
-            android:layout_gravity="center_horizontal">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/date_dialog_filter_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical">
+                android:gravity="center_horizontal"
+                android:text="@string/filter_date"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
-                <DatePicker
-                    android:id="@+id/dialog_date_datepicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:calendarViewShown="false"
-                    android:datePickerMode="spinner">
-
-                </DatePicker>
-
-                <TextView
-                    android:id="@+id/dialog_date_range"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/with_range"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:drawableEndCompat="@drawable/slide_down_arrow" />
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="330dp"
+                android:layout_gravity="center_horizontal">
 
                 <LinearLayout
-                    android:id="@+id/dialog_filter_range_date"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="vertical">
 
                     <DatePicker
-                        android:id="@+id/dialog_date_datepicker_range"
+                        android:id="@+id/dialog_date_datepicker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:calendarTextColor="@color/white"
                         android:calendarViewShown="false"
                         android:datePickerMode="spinner">
 
                     </DatePicker>
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/dialog_date_range"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/with_range"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        app:drawableEndCompat="@drawable/slide_down_arrow" />
 
-                <TextView
-                    android:id="@+id/dialog_date_without_range"
+                    <LinearLayout
+                        android:id="@+id/dialog_filter_range_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <DatePicker
+                            android:id="@+id/dialog_date_datepicker_range"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:calendarTextColor="@color/white"
+                            android:calendarViewShown="false"
+                            android:datePickerMode="spinner">
+
+                        </DatePicker>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/dialog_date_without_range"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/without_range"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        app:drawableEndCompat="@drawable/slide_down_arrow" />
+
+                    <RadioGroup
+                        android:id="@+id/dialog_date_radiogroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="30dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <RadioButton
+                            android:id="@+id/date_dialog_radio_specific_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/secondaryDarker"
+                            android:text="@string/only_this_day"
+                            android:textColor="@color/black" />
+
+                        <RadioButton
+                            android:id="@+id/date_dialog_radio_before"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/secondaryDarker"
+                            android:text="@string/before_this_day"
+                            android:textColor="@color/black" />
+
+                        <RadioButton
+                            android:id="@+id/date_dialog_radio_after"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/secondaryDarker"
+                            android:text="@string/after_this_day"
+                            android:textColor="@color/black" />
+                    </RadioGroup>
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/dialog_date_button_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:paddingHorizontal="20dp"
-                    android:text="@string/without_range"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:drawableEndCompat="@drawable/slide_down_arrow" />
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/filter"
+                    android:textAllCaps="false" />
 
-                <RadioGroup
-                    android:id="@+id/dialog_date_radiogroup"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/dialog_date_button_cancel"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="30dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <RadioButton
-                        android:id="@+id/date_dialog_radio_specific_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/secondaryDarker"
-                        android:text="@string/only_this_day"
-                        android:textColor="@color/black" />
-
-                    <RadioButton
-                        android:id="@+id/date_dialog_radio_before"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/secondaryDarker"
-                        android:text="@string/before_this_day"
-                        android:textColor="@color/black" />
-
-                    <RadioButton
-                        android:id="@+id/date_dialog_radio_after"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:buttonTint="@color/secondaryDarker"
-                        android:text="@string/after_this_day"
-                        android:textColor="@color/black" />
-                </RadioGroup>
-
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false" />
             </LinearLayout>
-        </ScrollView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/dialog_date_button_filter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                android:text="@string/filter"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/dialog_date_button_cancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:text="@string/cancel"
-                android:textAllCaps="false" />
         </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</androidx.core.widget.NestedScrollView>

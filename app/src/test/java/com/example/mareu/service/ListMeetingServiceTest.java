@@ -10,10 +10,15 @@ import com.example.mareu.utils.Utils;
 
 import junit.framework.TestCase;
 
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 
 public class ListMeetingServiceTest extends TestCase {
     private ListMeetingService service = Injection.getListMeetingService();
@@ -46,20 +51,22 @@ public class ListMeetingServiceTest extends TestCase {
         meetingList = service.getMeetingList();
         assertEquals(expectedSize - 1, meetingList.size());
         assertFalse(meetingList.contains(meeting));
+
+        service.addMeeting(meeting);
     }
 
     @Test
     public void testGetMeetingList() {
         List<Meeting> meetingList = service.getMeetingList();
         List<Meeting> expectedMeeting = DummyMeetingGenerator.DUMMY_MEETING;
-        assertEquals(meetingList, expectedMeeting);
+        assertThat(expectedMeeting, IsIterableContainingInAnyOrder.containsInAnyOrder(meetingList.toArray()));
     }
 
     @Test
     public void testGetMeeting() {
         List<Meeting> expectedMeeting = DummyMeetingGenerator.DUMMY_MEETING;
-        Meeting meeting = service.getMeeting(0);
-        assertEquals(meeting, expectedMeeting.get(0));
+        Meeting meeting = service.getMeeting(2);
+        assertTrue(expectedMeeting.contains(meeting));
     }
 
     @Test
@@ -81,7 +88,12 @@ public class ListMeetingServiceTest extends TestCase {
         assertEquals(expectedAfter, meetingList.size());
 
         meetingList = service.getMeetingList();
-        Meeting meeting = meetingList.get(0);
+        Meeting meeting = null;
+        for (int i = 0; i< meetingList.size(); i++){
+            if (Utils.getEqual(new Date(21, 1, 2022), meetingList.get(i).getMeetingDate())){
+                meeting = meetingList.get(i);
+            }
+        }
         int expectedSpecific = 1;
 
         meetingList = service.getFilteredMeetingList(Utils.EnumDate.specific, new Date(21, 1, 2022));
